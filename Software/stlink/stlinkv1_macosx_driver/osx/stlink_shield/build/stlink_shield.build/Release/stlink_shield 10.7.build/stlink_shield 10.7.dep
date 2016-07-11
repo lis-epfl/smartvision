@@ -1,0 +1,6 @@
+cb20efc5f63b0ad4439136c0b281af5e 00e1d5c9b254024bdbe69c66e76ec5a0 ffffffffffffffffffffffffffffffff 102 /Users/Cpu86/Desktop/STLINK fake driver/stlink_shield/build/Release/stlink_shield10_7.kext
+000000004eeb5e39000000000000009c aa3ee1dfcc948933fbeadafe58459600 ffffffffffffffffffffffffffffffff 156 /Users/Cpu86/Desktop/STLINK fake driver/stlink_shield/build/Release/stlink_shield10_7.kext/Contents/Resources/English.lproj/InfoPlist.strings
+00000000000000000000000000000000 611e0e1a7444dddeb87bec3eeac439c2 ffffffffffffffffffffffffffffffff 1607 /Users/Cpu86/Desktop/STLINK fake driver/stlink_shield/build/Release/stlink_shield10_7.kext/Contents/Info.plist
+b11c183436066fc227c33322f30431fa cda08f00f5487b89118b6dba21e8b912 ffffffffffffffffffffffffffffffff 102 /Users/Cpu86/Desktop/STLINK fake driver/stlink_shield/build/Release/stlink_shield.kext
+00000000000000000000000000000000 51405246926f8a8809432b956104b813 ffffffffffffffffffffffffffffffff 1607 /Users/Cpu86/Desktop/STLINK fake driver/stlink_shield/build/Release/stlink_shield.kext/Contents/Info.plist
+ffffffffffffffffffffffffffffffff ffffffffffffffffffffffffffffffff ffffffffffffffffffffffffffffffff 156 /Users/Cpu86/Desktop/STLINK fake driver/stlink_shield/build/Release/stlink_shield.kext/Contents/Resources/English.lproj/InfoPlist.strings

@@ -1,0 +1,31 @@
+N° de ligne,Code Commande,Conforme RoHS ?,Remarques,Qté :,Référence du fabricant,Fabricant / Description,Disponibilité,Prix unitaire,Prix,Prix avec remise
+1,2400660,YES,,2.0,"LP2992IM5-3.0/NOPB","Eingangsspannung, min.:2.05V; Eingangsspannung, max.:16V; Nennausgangsspannung:3V; Ausgangsstrom:250mA; Dropout-Spannung Vdo:450mV; Bauform:SOT-23; Anzahl der Pins:5Pin(s); Betriebstemper",1008,0.6330,1.27,,
+2,2468741,YES,,10.0,"1437566-3","Kontaktkonfiguration:SPST; Schalterfunktion:Aus-(Ein); AC-Kontaktspannung, nom.:-; DC-Kontaktspannung, nom.:24V; Kontaktstrom, max.:50mA; Schalteranschlüsse:SMD; Produktpalette:-",664,0.3880,3.88,,
+3,2064368,YES,,1.0,"STM32F407VGT6","Architektur:ARM Cortex-M4; CPU-Geschwindigkeit:168MHz; Programmspeichergröße:1MB; RAM-Speichergröße:196KB; Anzahl der Pins:100; Bauform:LQFP; Anzahl der Ein-/Ausgänge:82; Embedded-Schni",1281,16.2500,16.25,,
+4,2073011,YES,,10.0,"MCMR04X4020FTL","Produktpalette:Baureihe MCMR; Widerstand:402ohm; Nennleistung:62.5mW; Widerstandstoleranz:± 1%; Nennspannung:50V; Bauform:0402 [Metrisch 1005]; Verpackung:Gurtabschnitt; Widersta",4876,0.0150,0.15,,
+5,2073064,YES,,10.0,"MCMR04X4701FTL","Produktpalette:Baureihe MCMR; Widerstand:4.7kohm; Nennleistung:62.5mW; Widerstandstoleranz:± 1%; Nennspannung:50V; Bauform:0402 [Metrisch 1005]; Verpackung:Gurtabschnitt; Widersta",72844,0.0151,0.15,,
+6,2072516,YES,,10.0,"MCMR04X1001FTL","Produktpalette:Baureihe MCMR; Widerstand:1kohm; Nennleistung:63mW; Widerstandstoleranz:± 1%; Nennspannung:50V; Bauform:0402 [Metrisch 1005]; Verpackung:Gurtabschnitt; Widerstandse",363622,0.0152,0.15,,
+7,2072517,YES,,10.0,"MCMR04X1002FTL","Produktpalette:Baureihe MCMR; Widerstand:10kohm; Nennleistung:63mW; Widerstandstoleranz:± 1%; Nennspannung:50V; Bauform:0402 [Metrisch 1005]; Verpackung:Gurtabschnitt; Widerstand",335012,0.0146,0.15,,
+8,2101326,YES,,1.0,"ABM10-25.000MHZ-E20-T","Produktpalette:Baureihe ABM10; Nennfrequenz:25MHz; Frequenzstabilität + / -:20ppm; Frequenztoleranz + / -:20ppm; Quarzgehäuse:SMD, 2.5mm x 2mm; Belastungskapazität:10pF; Betriebstemperatur, min.:",Out of Stock,2.0200,2.02,,
+9,2443115,YES,,1.0,"USB3075-30-A","USB-Steckverbinder:Micro-USB Typ B; USB-Version:USB 2.0; Ausführung:Buchse; Anzahl der Positionen:5-polig; Steckverbindermontage:Oberflächenmontage; Ausrichtung:Rechtwinklig; Kontaktmate",4222,1.4000,1.40,,
+10,1318247,YES,,1.0,"KP-2012YC","LED-Farbe:Gelb; LED-Montage:Oberflächenmontage; Leuchtengröße:-; Durchlassstrom If:20mA; Durchlassspannung:2.1V; Wellenlänge, typ.:588nm; Lichtstärke:8mcd; Abstrahlwinkel:120°; Linsenform:Rechteckig; Verpa",4490,0.0917,0.09,,
+11,8529949,YES,,5.0,"KP-2012EC","LED-Farbe:Rot; LED-Montage:Oberflächenmontage; Leuchtengröße:-; Durchlassstrom If:20mA; Durchlassspannung:2V; Wellenlänge, typ.:617nm; Lichtstärke:8mcd; Abstrahlwinkel:120°; Linsenform:Rechteckig; Verp",24013,0.0886,0.44,,
+12,2290332,YES,,10.0,"KP-2012SECK","LED-Farbe:Orange; LED-Montage:Oberflächenmontage; Leuchtengröße:-; Durchlassstrom If:20mA; Durchlassspannung:2.1V; Wellenlänge, typ.:601nm; Lichtstärke:180mcd; Abstrahlwinkel:120°; Linsenform:Rech",15765,0.1150,1.15,,
+13,2290331,YES,,1.0,"KP-2012CGCK","LED-Farbe:Grün; LED-Montage:Oberflächenmontage; Leuchtengröße:-; Durchlassstrom If:20mA; Durchlassspannung:2.1V; Wellenlänge, typ.:570nm; Lichtstärke:50mcd; Abstrahlwinkel:120°; Linsenform:Rechtec",33904,0.1671,0.17,,
+14,1757771,YES,,4.0,"PMEG3015EJ,115","Diodenkonfiguration:Einfach; Periodische Sperrspannung Vrrm, max.:30V; Durchlassstrom (mittlerer) If(AV):1.5A; Bauform:SOD-323F; Anzahl der Pins:2Pin(s); Durchlassspannung Vf max",1159,0.4170,1.67,,
+15,2096204,YES,,1.0,"801-43-064-10-002000","Product Range:801 Series; Contact Termination Type:Through Hole; Gender:Receptacle; No. of Contacts:64; Pitch Spacing:2.54mm; Contact Plating:Gold Plated Con 04M4087",34,12.8000,12.80,,
+16,1125367,YES,,1.0,"53398-0471","Produktpalette:Baureihe PicoBlade 53398; Kontaktanschluss:Oberflächenmontage; Ausführung:Stiftleiste; Anzahl der Kontakte:4Kontakt(e); Rastermaß:1.25mm; Kontaktüberzug:Verzinnte Konta",18819,1.1000,1.10,,
+17,2427752,YES,,1.0,"FH23-25S-0.3SHW(05)","Produktpalette:Baureihe FH23; Kontaktanschluss:Oberflächenmontage; Ausführung:Buchse; Anzahl der Kontakte:25Kontakt(e); Kontaktposition:Unten; Rastermaß:0.3mm; FFC/FPC-Dicke:0.2m",2377,1.1000,1.10,,
+18,2320818,YES,,10.0,"MC0603X475K100CT","Produktpalette:Baureihe MC; Kapazität:4.7µF; Kapazitätstoleranz:± 10%; Dielektrikum:X5R; Nennspannung:10V; Keramikkondensatorgehäuse:0603 [Metrisch 1608]; Betriebstemperatur, min",35300,0.0691,0.69,,
+19,1758951,YES,,10.0,"MC0402N220J500CT","Produktpalette:Baureihe MC; Kapazität:22pF; Kapazitätstoleranz:± 5%; Dielektrikum:C0G / NP0; Nennspannung:50V; Keramikkondensatorgehäuse:0402 [Metrisch 1005]; Betriebstemperatur, m",19344,0.0104,0.10,,
+20,1759376,YES,,10.0,"MC0402X225M6R3CT","Produktpalette:Baureihe MC; Kapazität:2.2µF; Kapazitätstoleranz:± 20%; Dielektrikum:X5R; Nennspannung:6.3V; Keramikkondensatorgehäuse:0402 [Metrisch 1005]; Betriebstemperatur, mi",11278,0.1310,1.31,,
+21,2320776,YES,,10.0,"MC0402X105K100CT","Produktpalette:Baureihe MC; Kapazität:1µF; Kapazitätstoleranz:± 10%; Dielektrikum:X5R; Nennspannung:10V; Keramikkondensatorgehäuse:0402 [Metrisch 1005]; Betriebstemperatur, min.:-5",24517,0.0255,0.26,,
+22,1758943,YES,,10.0,"MC0402N120J500CT","Produktpalette:Baureihe MC; Kapazität:12pF; Kapazitätstoleranz:± 5%; Dielektrikum:C0G / NP0; Nennspannung:50V; Keramikkondensatorgehäuse:0402 [Metrisch 1005]; Betriebstemperatur, m",23169,0.0104,0.10,,
+23,1759393,YES,,1.0,"MC0603X106M6R3CT","Produktpalette:Baureihe MC; Kapazität:10µF; Kapazitätstoleranz:± 20%; Dielektrikum:X5R; Nennspannung:6.3V; Keramikkondensatorgehäuse:0603 [Metrisch 1608]; Betriebstemperatur, min.:-55°",210787,0.3740,0.37,,
+24,2320760,YES,,20.0,"MC0402X104K250CT","Produktpalette:Baureihe MC; Kapazität:0.1µF; Kapazitätstoleranz:± 10%; Dielektrikum:X5R; Nennspannung:25V; Keramikkondensatorgehäuse:0402 [Metrisch 1005]; Betriebstemperatur, min",157932,0.0135,0.27,,
+
+,,,,,,,Sous-total,47.04
+,,,,,,,Total des marchandises,47.04
+,,,,,,,Livraison de base,0.00
+,,,,,,,TVA,Unknown
+,,,,,,,Total,47.04

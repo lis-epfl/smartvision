@@ -1,0 +1,51 @@
+Tstlink_shield copy
+v7
+r1
+
+N/Users/Cpu86/Desktop/STLINK fake driver/stlink_shield/English.lproj/InfoPlist.strings
+c000000004EEB5E39000000000000009C
+t1324047929
+s156
+
+N/Users/Cpu86/Desktop/STLINK fake driver/stlink_shield/build/Release/stlink_shield.kext
+t1324052089
+s102
+
+N/Users/Cpu86/Desktop/STLINK fake driver/stlink_shield/build/Release/stlink_shield.kext/Contents/Info.plist
+t1324052089
+s1613
+
+N/Users/Cpu86/Desktop/STLINK fake driver/stlink_shield/build/Release/stlink_shield.kext/Contents/Resources/English.lproj/InfoPlist.strings
+t1324052089
+s156
+
+N/Users/Cpu86/Desktop/STLINK fake driver/stlink_shield/build/stlink_shield.build/Release/stlink_shield copy.build/Script-8CD33C27149BB80D0033D618.sh
+c00000000000000000000000000000000
+t2
+s0
+
+N/Users/Cpu86/Desktop/STLINK fake driver/stlink_shield/build/stlink_shield.build/Release/stlink_shield copy.build/Script-8CD33C2C149BB80D0033D618.sh
+c00000000000000000000000000000000
+t2
+s0
+
+Nstlink_shield copy.plist
+c000000004EEB5D2400000000000006DB
+t1324047652
+s1755
+
+CCopyStringsFile "/Users/Cpu86/Desktop/STLINK fake driver/stlink_shield/build/Release/stlink_shield.kext/Contents/Resources/English.lproj/InfoPlist.strings" English.lproj/InfoPlist.strings
+r0
+
+CPhaseScriptExecution "Run Script" "/Users/Cpu86/Desktop/STLINK fake driver/stlink_shield/build/stlink_shield.build/Release/stlink_shield copy.build/Script-8CD33C27149BB80D0033D618.sh"
+r0
+
+CPhaseScriptExecution "Run Script" "/Users/Cpu86/Desktop/STLINK fake driver/stlink_shield/build/stlink_shield.build/Release/stlink_shield copy.build/Script-8CD33C2C149BB80D0033D618.sh"
+r0
+
+CProcessInfoPlistFile "/Users/Cpu86/Desktop/STLINK fake driver/stlink_shield/build/Release/stlink_shield.kext/Contents/Info.plist" "stlink_shield copy.plist"
+r0
+
+CTouch "/Users/Cpu86/Desktop/STLINK fake driver/stlink_shield/build/Release/stlink_shield.kext"
+r0
+
