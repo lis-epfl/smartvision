@@ -1,7 +1,10 @@
 //Personal library
 #include <SmartVision_V1.h>
 #include <OV7675_dcmi.h>
+
+// Mavlink
 #include <mavlink.h>
+#include "mavlink_communication.h"
 
 // Global variables
 	//DCMI
@@ -14,7 +17,7 @@ extern I2C_StatusTypeDef I2C_Status;
 RTC_HandleTypeDef RTC_Handle;
 RTC_TimeTypeDef RTC_TimeStruct;
 	//MAVLINK
-mavlink_system_t mavlink_system;
+//mavlink_system_t mavlink_system;
 uint8_t system_type = MAV_TYPE_FIXED_WING;
 uint8_t autopilot_type = MAV_AUTOPILOT_GENERIC; 
 uint8_t system_mode = MAV_MODE_PREFLIGHT; ///< Booting up
@@ -158,7 +161,7 @@ int main(void)
 	USBD_Start(&USBD_Device);
 	while (!g_VCPInitialized) {} // Wait for the initialisation of the VCP
 
-	scanf("%d", &start); // Wait that the port COM is opened by the user. 
+//	scanf("%d", &start); // Wait that the port COM is opened by the user. 
 						// Warning don't use this function when you want to use QGroundControl because it won't see the COM port !!
 	
 	OV7675_Init(QQVGA);
@@ -166,10 +169,11 @@ int main(void)
 	// Color bar
 //	I2C_Status = OV7675_Write_Reg_Bit(OV7675_COM7, 1, 1);
 //	I2C_Status_Printf("Color bar", I2C_Status);
+	mavlink_communication_init();
 	
 	while (1)
 	{
-		mavlink_send_heartbeat();
+		mavlink_send_state();
 		// Need to wait before sending the next package to avoid buffer problem into the serial port
 		for (int j = 0; j < 1000000; j++) 
 		{
@@ -213,24 +217,27 @@ void LED_Toogle()
 	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_3, GPIO_PIN_SET);	
 }
 
-void mavlink_init()
-{
-	mavlink_system.sysid = 20;                   ///< ID 20 for this airplane
-	mavlink_system.compid = MAV_COMP_ID_IMU;     ///< The component sending the message is the IMU, it could be also a Linux process
-}
+//void mavlink_init()
+//{
+//	mavlink_system.sysid = 20;                   ///< ID 20 for this airplane
+//	mavlink_system.compid = MAV_COMP_ID_IMU;     ///< The component sending the message is the IMU, it could be also a Linux process
+//}
 
 void mavlink_send_heartbeat()
 {
+	mavlink_channel_t chan;
 	// Pack the message
 	mavlink_msg_heartbeat_pack(mavlink_system.sysid, mavlink_system.compid, &msg, system_type, autopilot_type, system_mode, custom_mode, system_state);
 	
 	// Copy the message to the send buffer
 	uint16_t len = mavlink_msg_to_send_buffer(buf, &msg);
 	
+	mavlink_send_uart_bytes(chan, buf, len);
+	
 	// Uart sending
-	for (int i = 0; i < len; i++)
-	{
-		VCP_write(&buf[i], 1);
-	}
+//	for (int i = 0; i < len; i++)
+//	{
+//		VCP_write(&buf[i], 1);
+//	}
 }
 

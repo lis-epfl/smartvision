@@ -281,6 +281,9 @@
     <ClCompile Include="..\..\..\..\Users\William PONSOT\AppData\Local\VisualGDB\EmbeddedBSPs\arm-eabi\com.sysprogs.arm.stm32\STM32F4xxxx\STM32F4xx_HAL_Driver\Src\stm32f4xx_ll_usb.c">
       <Filter>Source files\Device-specific files\HAL</Filter>
     </ClCompile>
+    <ClCompile Include="mavlink_communication.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="usbd_cdc_if.h">
@@ -1035,6 +1038,12 @@
     </ClInclude>
     <ClInclude Include="..\Libs\mavlink_headers\mavric\version.h">
       <Filter>Header files\mavlink_headers\mavric</Filter>
+    </ClInclude>
+    <ClInclude Include="mavlink_bridge_header.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="mavlink_communication.h">
+      <Filter>Header files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

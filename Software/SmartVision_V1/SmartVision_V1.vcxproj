@@ -134,6 +134,7 @@
     <ClCompile Include="..\..\..\..\Users\William PONSOT\AppData\Local\VisualGDB\EmbeddedBSPs\arm-eabi\com.sysprogs.arm.stm32\STM32_USB_Device_Library\Core\Src\usbd_core.c" />
     <ClCompile Include="..\..\..\..\Users\William PONSOT\AppData\Local\VisualGDB\EmbeddedBSPs\arm-eabi\com.sysprogs.arm.stm32\STM32_USB_Device_Library\Core\Src\usbd_ctlreq.c" />
     <ClCompile Include="..\..\..\..\Users\William PONSOT\AppData\Local\VisualGDB\EmbeddedBSPs\arm-eabi\com.sysprogs.arm.stm32\STM32_USB_Device_Library\Core\Src\usbd_ioreq.c" />
+    <ClCompile Include="mavlink_communication.cpp" />
     <ClCompile Include="OV7675_dcmi.cpp" />
     <ClCompile Include="SmartVision_V1.cpp" />
     <ClCompile Include="system_stm32f4xx.c" />
@@ -235,6 +236,8 @@
     <ClInclude Include="..\..\..\..\Users\William PONSOT\AppData\Local\VisualGDB\EmbeddedBSPs\arm-eabi\com.sysprogs.arm.stm32\STM32_USB_Device_Library\Core\Inc\usbd_ctlreq.h" />
     <ClInclude Include="..\..\..\..\Users\William PONSOT\AppData\Local\VisualGDB\EmbeddedBSPs\arm-eabi\com.sysprogs.arm.stm32\STM32_USB_Device_Library\Core\Inc\usbd_def.h" />
     <ClInclude Include="..\..\..\..\Users\William PONSOT\AppData\Local\VisualGDB\EmbeddedBSPs\arm-eabi\com.sysprogs.arm.stm32\STM32_USB_Device_Library\Core\Inc\usbd_ioreq.h" />
+    <ClInclude Include="mavlink_bridge_header.h" />
+    <ClInclude Include="mavlink_communication.h" />
     <ClInclude Include="OV7675_dcmi.h" />
     <ClInclude Include="OV7675_registers.h" />
     <ClInclude Include="SmartVision_V1.h" />

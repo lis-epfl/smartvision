@@ -234,6 +234,8 @@ Debug/SmartVision_V1.o: SmartVision_V1.cpp SmartVision_V1.h OV7675_dcmi.h \
  ../Libs/mavlink_headers/common/./mavlink_msg_named_value_int.h \
  ../Libs/mavlink_headers/common/./mavlink_msg_statustext.h \
  ../Libs/mavlink_headers/common/./mavlink_msg_debug.h \
+ mavlink_communication.h mavlink_bridge_header.h \
+ ../Libs/mavlink_headers/mavlink_types.h \
  C:\Users\WILLIA~1\AppData\Local\VisualGDB\EmbeddedBSPs\arm-eabi\com.sysprogs.arm.stm32/STM32_USB_Device_Library/Core/Inc/usbd_core.h \
  usbd_conf.h c:\sysgcc\arm-eabi\arm-eabi\sys-include\stdlib.h \
  c:\sysgcc\arm-eabi\arm-eabi\sys-include\machine\stdlib.h \
