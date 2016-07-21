@@ -6,7 +6,7 @@ BINARYDIR := Debug
 
 #Additional flags
 PREPROCESSOR_MACROS := DEBUG=1
-INCLUDE_DIRS := 
+INCLUDE_DIRS := ../Libs/mavlink_headers ../Libs/mavlink_headers/common ../Libs/mavlink_headers/mavric
 LIBRARY_DIRS := 
 LIBRARY_NAMES := 
 ADDITIONAL_LINKER_INPUTS := 

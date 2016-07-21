@@ -1,4 +1,5 @@
 #include "OV7675_dcmi.h"
+#include "mavlink.h"
 
 //// Private variables
 
@@ -88,13 +89,19 @@ void OV7675_Init(OV7675_ModeTypeDef mode)
 		break;
 	}
 	
-		
 	// DCMI
 	OV7675_Dcmi_Config();
 	
 	printf("End of INIT\r\n");
 }
 
+
+/**
+  * @brief  Send image through serial port thanks to printf
+  * @param data : buffer with the value of the pixels
+  * @param data_size : size of the buffer
+  * @retval None
+  */
 void OV7675_Send_Data(uint8_t data[], uint32_t data_size)
 {
 	printf("START PBUFFER TRANSFER\r\n");
@@ -153,7 +160,7 @@ void OV7675_Dcmi_Config(void)
 	HAL_NVIC_SetPriority(DMA2_Stream1_IRQn, 1, 1); // priority 0 and sub priority 0 (0 Highest priority)
 	HAL_NVIC_EnableIRQ(DMA2_Stream1_IRQn);
 	
-	HAL_Status = HAL_DCMI_Start_DMA(&DCMI_Handle, DCMI_MODE_SNAPSHOT, (uint32_t) data, data_size / 4);
+	HAL_Status = HAL_DCMI_Start_DMA(&DCMI_Handle, DCMI_MODE_SNAPSHOT, (uint32_t) data, data_size / 4); // DCMI_MODE_SNAPSHOT
 	HAL_Status_Printf("DCMI Start DMA", HAL_Status);
 }
 
@@ -430,12 +437,12 @@ void HAL_DCMI_FrameEventCallback(DCMI_HandleTypeDef *hdcmi)
 	line_Frame = line;
 	line = 0;
 	vsync = 0;
-	asm("bkpt 255");
+	//asm("bkpt 255");
 }
 
 void HAL_DCMI_ErrorCallback(DCMI_HandleTypeDef *hdcmi)
 {
-	asm("bkpt 255");
+	//asm("bkpt 255");
 }
 
 void HAL_DCMI_LineEventCallback(DCMI_HandleTypeDef *hdcmi)
