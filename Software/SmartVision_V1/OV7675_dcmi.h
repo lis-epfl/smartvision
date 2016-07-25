@@ -24,6 +24,8 @@
 
 // Image size
 #define QQVGA_YUV_size 38400 // QQVGA : 160(column)*120(line) pixels = 19200 , *2 if YUV422 is selected
+#define QQVGA_ROW 120
+#define QQVGA_COLUMN 160
 
 // Return status
 typedef enum 

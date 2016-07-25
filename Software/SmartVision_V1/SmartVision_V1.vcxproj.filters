@@ -284,6 +284,9 @@
     <ClCompile Include="mavlink_communication.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
+    <ClCompile Include="settings_parameters.cpp">
+      <Filter>Header files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="usbd_cdc_if.h">
@@ -1043,6 +1046,9 @@
       <Filter>Header files</Filter>
     </ClInclude>
     <ClInclude Include="mavlink_communication.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="settings_parameters.h">
       <Filter>Header files</Filter>
     </ClInclude>
   </ItemGroup>

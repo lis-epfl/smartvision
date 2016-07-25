@@ -136,6 +136,7 @@
     <ClCompile Include="..\..\..\..\Users\William PONSOT\AppData\Local\VisualGDB\EmbeddedBSPs\arm-eabi\com.sysprogs.arm.stm32\STM32_USB_Device_Library\Core\Src\usbd_ioreq.c" />
     <ClCompile Include="mavlink_communication.cpp" />
     <ClCompile Include="OV7675_dcmi.cpp" />
+    <ClCompile Include="settings_parameters.cpp" />
     <ClCompile Include="SmartVision_V1.cpp" />
     <ClCompile Include="system_stm32f4xx.c" />
     <ClCompile Include="usbd_cdc_if.c" />
@@ -240,6 +241,7 @@
     <ClInclude Include="mavlink_communication.h" />
     <ClInclude Include="OV7675_dcmi.h" />
     <ClInclude Include="OV7675_registers.h" />
+    <ClInclude Include="settings_parameters.h" />
     <ClInclude Include="SmartVision_V1.h" />
     <ClInclude Include="stm32f4xx_hal_conf.h" />
     <ClInclude Include="usbd_cdc_if.h" />

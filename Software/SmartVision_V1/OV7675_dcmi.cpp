@@ -10,8 +10,10 @@ DMA_HandleTypeDef DMA_Handle;
 I2C_StatusTypeDef I2C_Status;
 HAL_StatusTypeDef HAL_Status;
 
-uint8_t data[QQVGA_YUV_size];
-uint32_t data_size = QQVGA_YUV_size;
+uint8_t image[QQVGA_YUV_size];
+uint32_t image_size = QQVGA_YUV_size;
+uint16_t image_row = QQVGA_ROW;
+uint16_t image_column = QQVGA_COLUMN;
 
 OV7675_IDTypeDef  OV7675_Camera_ID; 
 
@@ -160,7 +162,7 @@ void OV7675_Dcmi_Config(void)
 	HAL_NVIC_SetPriority(DMA2_Stream1_IRQn, 1, 1); // priority 0 and sub priority 0 (0 Highest priority)
 	HAL_NVIC_EnableIRQ(DMA2_Stream1_IRQn);
 	
-	HAL_Status = HAL_DCMI_Start_DMA(&DCMI_Handle, DCMI_MODE_SNAPSHOT, (uint32_t) data, data_size / 4); // DCMI_MODE_SNAPSHOT
+	HAL_Status = HAL_DCMI_Start_DMA(&DCMI_Handle, DCMI_MODE_SNAPSHOT, (uint32_t) image, image_size / 4); // DCMI_MODE_SNAPSHOT
 	HAL_Status_Printf("DCMI Start DMA", HAL_Status);
 }
 
@@ -264,7 +266,7 @@ I2C_StatusTypeDef OV7675_Write_Reg(uint16_t MemAddress, uint8_t *pData)
 /**
   * @brief  Write a specific bit into a register of the OV7675 camera 
   * @param MemAdress : internal memory address where the value is written 
-  * @param bit : represents the bit that needs to be changed. Warning the first bit is 0 !
+  * @param bit : represents the bit that needs to be changed. Warning, the first bit is 0 !
   * @param value : the bit will have this value at the end of the function. =0 or =1 only !
   * @retval I2C_StatusTypeDef
   */
