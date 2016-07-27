@@ -191,26 +191,14 @@ int main(void)
 		communication_parameter_send();
 		
 		//Wait the image
-//		capture = DCMI_Handle.Instance->CR & (0x00000001);
-//		if (capture == 0)
-//		{
-//			send_calibration_image(&p_image, image_size, image_row, image_column);
-//			
-//		}
+		capture = DCMI_Handle.Instance->CR & (0x00000001);
+		if (capture == 0 && global_data.param[MOV_IMAGE]==1)
+		{
+			global_data.param[MOV_IMAGE] = 0;
+			communication_send_specific_parameter(MOV_IMAGE);
+			send_calibration_image(&p_image, image_size, image_row, image_column);
+		}
 	}
-	
-	
-	
-//	while (1)
-//	{
-//		capture = DCMI_Handle.Instance->CR & (0x00000001);
-//		if (capture == 0)
-//		{
-//			//asm("bkpt 255");
-//			//OV7675_Send_Data(data, data_size);
-//			//asm("bkpt 255");
-//		}
-//	}
 }
 
 void LED_Init()

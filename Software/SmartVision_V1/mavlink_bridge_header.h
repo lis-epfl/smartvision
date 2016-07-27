@@ -8,5 +8,5 @@
 
 extern mavlink_system_t mavlink_system;
 
-/* defined in mavlink_communication.c */
+/* defined in mavlink_communication.cpp */
 extern void mavlink_send_uart_bytes(mavlink_channel_t chan, const uint8_t * ch, uint16_t length);

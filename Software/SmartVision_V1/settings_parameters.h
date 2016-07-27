@@ -1,8 +1,3 @@
-
-
-
-
-
 #define ONBOARD_PARAM_NAME_LENGTH 15
 #define SYSTEM_ID 1
 #define COMPONENT_ID 2
@@ -20,7 +15,12 @@ enum global_param_id_t
 {
 	PARAM_SYSTEM_ID = 0,
 	PARAM_COMPONENT_ID,
-	LEUG,
+	
+	// Mavlink OmniVision
+	MOV_IMAGE, //Used to take an other image without changing a register
+	MOV_COM17, 
+	
+	TEST,
 	
 	ONBOARD_PARAM_COUNT
 };
@@ -36,6 +36,6 @@ struct global_struct
 
 void global_data_reset_param_defaults(void);
 
-// Global declarations
+	// Global declarations
 extern enum global_param_id_t global_param_id;
 extern struct global_struct global_data;

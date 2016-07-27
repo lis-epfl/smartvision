@@ -5,7 +5,8 @@ mavlink_system_t mavlink_system;
 static uint32_t m_parameter_i = 0;
 
 /**
- * @brief Send an image to QGround control station through serial port.  !! WARNING : for now wrong data format !! --> RAW8U ???
+ * @brief Send an image to QGround control station through serial port. 
+ *	The data are stored in image : u12 y1 v12 y2 u34 y3 v34 y4 ... (y:luminance, u and v chrominance). QGround will show a grayscale image !  
  * @param image : pointer on the address of the beginning of the table
  * @param image_size : size of the table (bytes)
  * @param image_row : number of row
@@ -18,24 +19,22 @@ void send_calibration_image(uint8_t ** image, uint32_t image_size, uint16_t imag
 		
 	mavlink_msg_data_transmission_handshake_send(
 		MAVLINK_COMM_0,
-		MAVLINK_DATA_STREAM_IMG_RAW8U, // Only luma part of the image is sended --> Y1Y2Y3...Yn
-		image_size,
-		image_row*2,
+		MAVLINK_DATA_STREAM_IMG_RAW8U, // Only luminance part of the image is sended --> Y1Y2Y3...Yn
+		image_size/2,
 		image_column,
-		image_size / MAVLINK_MSG_ENCAPSULATED_DATA_FIELD_DATA_LEN + 1,
+		image_row,
+		image_size/2 / MAVLINK_MSG_ENCAPSULATED_DATA_FIELD_DATA_LEN + 1,
 		MAVLINK_MSG_ENCAPSULATED_DATA_FIELD_DATA_LEN,
 		100);
 	
-	for (int i = 0; i < image_size; i++)
+	for (int i = 0; i < image_size/2; i++)
 	{
 		if (i % MAVLINK_MSG_ENCAPSULATED_DATA_FIELD_DATA_LEN == 0 && i != 0)
 		{
 			mavlink_msg_encapsulated_data_send(MAVLINK_COMM_0, frame, frame_buffer);
 			frame++;
-			HAL_Delay(2);
-			
 		}
-		frame_buffer[i % MAVLINK_MSG_ENCAPSULATED_DATA_FIELD_DATA_LEN] = (uint8_t)(*image)[i % image_size];
+		frame_buffer[i % MAVLINK_MSG_ENCAPSULATED_DATA_FIELD_DATA_LEN] = (uint8_t)(*image)[(2*i + 1)];
 	}
 	mavlink_msg_encapsulated_data_send(MAVLINK_COMM_0, frame, frame_buffer);
 }
@@ -72,17 +71,29 @@ void mavlink_send_uart_bytes(mavlink_channel_t chan, const uint8_t * ch, uint16_
 }
 
 /**
- * @brief Send one by one the parameters stored in global_data structure
+ * @brief Send one by one the parameters stored in global_data structure. 
  */
 void communication_parameter_send(void)
 {
 	if (m_parameter_i < ONBOARD_PARAM_COUNT)
 	{
-		mavlink_msg_param_value_send(MAVLINK_COMM_0, 
-			global_data.param_name[m_parameter_i], 
-			global_data.param[m_parameter_i], MAVLINK_TYPE_FLOAT, ONBOARD_PARAM_COUNT, m_parameter_i);
+		communication_send_specific_parameter(m_parameter_i);
 		m_parameter_i++;
 	}
+}
+
+/**
+ * @brief Send one parameter stored in global_data structure
+ * @param param_ID : identification number of the parameter declared in enum global_param_id_t (settings_parameters.h)
+ */
+void communication_send_specific_parameter(uint8_t param_ID)
+{
+	mavlink_msg_param_value_send(MAVLINK_COMM_0, 
+		global_data.param_name[param_ID], 
+		global_data.param[param_ID],
+		MAVLINK_TYPE_FLOAT,
+		ONBOARD_PARAM_COUNT,
+		param_ID);
 }
 
 /**
@@ -106,6 +117,8 @@ void communication_receive(void)
 
 /**
  * @brief Handle messages coming from QGround station
+ * @param chan : MAVLink channel to use
+ * @param msg : message decripted by mavlink_parse_char coming from QGround station
  */
 void handle_mavlink_message(mavlink_channel_t chan, mavlink_message_t * msg)
 {
@@ -136,19 +149,30 @@ void handle_mavlink_message(mavlink_channel_t chan, mavlink_message_t * msg)
 												   == (uint8_t) global_data.param[PARAM_COMPONENT_ID])
 			{
 				char* key = (char*) set.param_id;
+				char* camera;
+				strcpy(camera, "MOV"); // All the register from the camera need to start with this string !!
 
 				for (int i = 0; i < ONBOARD_PARAM_COUNT; i++)
 				{
 					bool match = true;
+					bool match_camera = true;
+					
 					for (int j = 0; j < ONBOARD_PARAM_NAME_LENGTH; j++)
 					{
-						/* Compare */
+						/* Compare if a parameter has the same name*/
 						if (((char)(global_data.param_name[i][j]))
 								!= (char)(key[j]))
 						{
 							match = false;
 						}
-
+						
+						/* Compare if it's a camera parameter*/
+						if (((char)(camera[j])
+								!= (char)(key[j])) && j < strlen(camera))
+						{
+							match_camera = false;
+						}
+						
 						/* End matching if null termination is reached */
 						if (((char) global_data.param_name[i][j]) == '\0')
 						{
@@ -157,10 +181,21 @@ void handle_mavlink_message(mavlink_channel_t chan, mavlink_message_t * msg)
 					}
 					if (match)
 					{
-						// Only write if is not "not a number" AND if is not infinity AND if access is allowed
-						if (!isnan(set.param_value) && !isinf(set.param_value) && global_data.param_access[i])
+						/* Only write if is not "not a number" 
+						AND if is not infinity 
+						AND if access is allowed 
+						AND if the value is different */
+						if (global_data.param[i] != set.param_value 
+							&& !isnan(set.param_value) 
+							&& !isinf(set.param_value) 
+							&& global_data.param_access[i])
 						{
+							if (match_camera)
+							{
+								global_data.param[MOV_IMAGE] = 1; // Allow to send another image each time a parameter of the camera is changed
+							}
 							global_data.param[i] = set.param_value;
+							communication_send_specific_parameter(i); //QGround need to know that the parameter is received so it's sended back !
 						}
 					}
 				}		
