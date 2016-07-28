@@ -26,3 +26,16 @@
 *.exe
 *.out
 *.app
+*.npa 
+*.npd 
+*.rdb 
+*.dep 
+*.lck 
+*.elf 
+*.log 
+*.bin 
+*.db 
+*.vs/* 
+*GlobalFileTable*
+Software/.vs
+*VisualGDBCache*
