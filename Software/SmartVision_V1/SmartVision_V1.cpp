@@ -1,11 +1,12 @@
-//Personal library
-#include <SmartVision_V1.h>
-#include <OV7675_dcmi.h>
+/******************************************************************************
+ * @file     SmartVision_V1.cpp
+ * @brief    Main file
+ * @version  V1
+ * @date     28. July 2016
+ * @Author	 W. PONSOT
+ ******************************************************************************/
 
-// Mavlink
-#include <mavlink.h>
-#include "mavlink_communication.h"
-#include "settings_parameters.h"
+#include <SmartVision_V1.h>
 
 // Global variables
 	//DCMI
@@ -145,10 +146,11 @@ void OTG_HS_IRQHandler(void)
 
 int main(void)
 {
-	char start = 0;
+ 	char start = 0;
 	uint8_t dataRead;
 	uint8_t capture;
 	uint32_t tick_start;
+	uint8_t * p_image = image;
 	
 	// Microcontroller Init
 	HAL_Init();
@@ -166,15 +168,8 @@ int main(void)
 	
 	OV7675_Init(QQVGA);
 	
-	// Color bar
-	I2C_Status = OV7675_Write_Reg_Bit(OV7675_COM7, 1, 1);
-	I2C_Status_Printf("Color bar", I2C_Status);
-	
 	global_data_reset_param_defaults();
 	mavlink_communication_init();
-	
-	
-	uint8_t * p_image = image;
 	
 	tick_start = HAL_GetTick();
 	
@@ -190,37 +185,17 @@ int main(void)
 		communication_receive();
 		communication_parameter_send();
 		
-		//Wait the image
-		capture = DCMI_Handle.Instance->CR & (0x00000001);
-		if (capture == 0 && global_data.param[MOV_IMAGE]==1)
+		if (global_data.param[C_IMAGE] == 1)
 		{
-			global_data.param[MOV_IMAGE] = 0;
-			communication_send_specific_parameter(MOV_IMAGE);
+			global_data.param[C_IMAGE] = 0;
+			communication_send_specific_parameter(C_IMAGE);
+			
+			DCMI_Handle.Instance->CR |= 0x00000001; //Enable capture
+			while ((DCMI_Handle.Instance->CR & (0x00000001)) != 0) {} //Wait the image
+			
 			send_calibration_image(&p_image, image_size, image_row, image_column);
 		}
 	}
-}
-
-void LED_Init()
-{
-	GPIO_InitTypeDef GPIO_InitStructure;
-	
-	__HAL_RCC_GPIOD_CLK_ENABLE(); // Clock port D enable
-
-	GPIO_InitStructure.Pin = GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_2 | GPIO_PIN_12;
-	GPIO_InitStructure.Mode = GPIO_MODE_OUTPUT_PP;
-	GPIO_InitStructure.Pull = GPIO_NOPULL;
-	GPIO_InitStructure.Speed = GPIO_SPEED_FREQ_LOW;
-
-	HAL_GPIO_Init(GPIOD, &GPIO_InitStructure);
-}
-
-void LED_Toogle()
-{
-	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_SET);
-	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_1, GPIO_PIN_SET);
-	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_2, GPIO_PIN_SET);
-	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_3, GPIO_PIN_SET);	
 }
 
 

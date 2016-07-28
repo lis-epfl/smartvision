@@ -1,3 +1,13 @@
+/******************************************************************************
+ * @file     OV7675_registers.h
+ * @brief    Define all the address and default value (DV) of the camera
+ * @version  V1
+ * @date     28. July 2016
+ * @Author	 W. PONSOT
+ ******************************************************************************/
+
+#ifndef OV7675_REGISTERS_H
+#define OV7675_REGISTERS_H
 // OV7675 Registers definition : OV7675_RegisterName   RegisterAddress
 
 #define OV7675_GAIN       0x00
@@ -49,7 +59,7 @@
 #define OV7675_COM15      0x40
 #define OV7675_COM16      0x41
 #define OV7675_COM17      0x42
-#define OV7675_DNSTH	   0x4C
+#define OV7675_DNSTH	  0x4C
 #define OV7675_MTX1       0x4F
 #define OV7675_MTX2       0x50
 #define OV7675_MTX3       0x51
@@ -116,7 +126,6 @@
 #define OV7675_RDSP2      0xEA
 #define OV7675_RDSP3      0xEB
 #define OV7675_RDSP4      0xEC
-
 
 // OV7675 Registers Default Value (DV) : OV7675_RegisterName_DV   RegisterDefaultValue
 
@@ -236,3 +245,5 @@
 #define OV7675_RDSP2_DV      0x10
 #define OV7675_RDSP3_DV      0x10
 #define OV7675_RDSP4_DV      0x10
+
+#endif 

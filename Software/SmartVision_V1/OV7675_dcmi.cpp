@@ -1,8 +1,14 @@
+/******************************************************************************
+ * @file     OV7675_dcmi.cpp
+ * @brief    Functions to handle the transfer of an image from the OmniVision camera OV7675
+ * @version  V1
+ * @date     28. July 2016
+ * @Author	 W. PONSOT
+ ******************************************************************************/
+
 #include "OV7675_dcmi.h"
-#include "mavlink.h"
 
-//// Private variables
-
+// Private variables
 I2C_HandleTypeDef I2C_Handle;
 DCMI_HandleTypeDef DCMI_Handle;
 DMA_HandleTypeDef DMA_Handle;
@@ -17,7 +23,7 @@ uint16_t image_column = QQVGA_COLUMN;
 
 OV7675_IDTypeDef  OV7675_Camera_ID; 
 
-// Varible to configure the camera
+// Variable to configure the camera
 uint32_t line = 0;
 uint32_t line_Frame = 0;
 uint32_t vsync = 0;
@@ -43,7 +49,6 @@ uint8_t OV7675_QVGA[] =
 uint8_t OV7675_VGA[] =
 {	
 };
-
 
 /**
   * @brief  Initializes the hardware resources (I2C and GPIO) used to configure 

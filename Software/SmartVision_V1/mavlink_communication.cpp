@@ -1,12 +1,20 @@
+/******************************************************************************
+ * @file     mavlink_communication.cpp
+ * @brief    Functions to send (receive) datas to (from) QGround Control
+ * @version  V1
+ * @date     28. July 2016
+ * @Author	 W. PONSOT
+ ******************************************************************************/
+
 #include "mavlink_communication.h"
-#include "settings_parameters.h"
 
 mavlink_system_t mavlink_system;
 static uint32_t m_parameter_i = 0;
+char camera[] = "C_"; //Beginning of all the camera register
 
-/**
+/*
  * @brief Send an image to QGround control station through serial port. 
- *	The data are stored in image : u12 y1 v12 y2 u34 y3 v34 y4 ... (y:luminance, u and v chrominance). QGround will show a grayscale image !  
+ * The data are stored in image : u12 y1 v12 y2 u34 y3 v34 y4 ... (y:luminance, u and v chrominance). QGround will show a grayscale image !  
  * @param image : pointer on the address of the beginning of the table
  * @param image_size : size of the table (bytes)
  * @param image_row : number of row
@@ -72,11 +80,36 @@ void mavlink_send_uart_bytes(mavlink_channel_t chan, const uint8_t * ch, uint16_
 
 /**
  * @brief Send one by one the parameters stored in global_data structure. 
+ * If it's a camera parameter, read first the value on the camera and send it to QGround Control.
  */
 void communication_parameter_send(void)
 {
+	uint8_t value;
+	
 	if (m_parameter_i < ONBOARD_PARAM_COUNT)
 	{
+		bool match_camera = true;
+		for (int i = 0; i < ONBOARD_PARAM_NAME_LENGTH; i++)
+		{
+			/* Compare if it's a camera parameter*/
+			if (((char)(camera[i])
+				!= (char)(global_data.param_name[m_parameter_i][i])) && i < strlen(camera))
+			{
+				match_camera = false;
+			}
+			/* End matching if null termination is reached */
+			if (((char) global_data.param_name[m_parameter_i][i]) == '\0')
+			{
+				break;
+			}
+		}
+		
+		if (match_camera && m_parameter_i != C_IMAGE)
+		{
+			read_camera_register(m_parameter_i, &value);
+			global_data.param[m_parameter_i] = (float) value;
+ 		}
+		
 		communication_send_specific_parameter(m_parameter_i);
 		m_parameter_i++;
 	}
@@ -122,6 +155,9 @@ void communication_receive(void)
  */
 void handle_mavlink_message(mavlink_channel_t chan, mavlink_message_t * msg)
 {
+	I2C_StatusTypeDef I2C_Status;
+	float previous_value;
+	
 	switch (msg->msgid)
 	{
 		case MAVLINK_MSG_ID_PARAM_REQUEST_READ:
@@ -149,8 +185,8 @@ void handle_mavlink_message(mavlink_channel_t chan, mavlink_message_t * msg)
 												   == (uint8_t) global_data.param[PARAM_COMPONENT_ID])
 			{
 				char* key = (char*) set.param_id;
-				char* camera;
-				strcpy(camera, "MOV"); // All the register from the camera need to start with this string !!
+				
+				
 
 				for (int i = 0; i < ONBOARD_PARAM_COUNT; i++)
 				{
@@ -192,10 +228,27 @@ void handle_mavlink_message(mavlink_channel_t chan, mavlink_message_t * msg)
 						{
 							if (match_camera)
 							{
-								global_data.param[MOV_IMAGE] = 1; // Allow to send another image each time a parameter of the camera is changed
+								global_data.param[C_IMAGE] = 1; // Allow to send another image each time a parameter of the camera is changed
+								
+								previous_value = global_data.param[i];
+								global_data.param[i] = set.param_value;
+								communication_send_specific_parameter(i);
+								
+								I2C_Status = write_camera_register(i, set.param_value);
+								
+								//If the register value can't be written, save the previous value and send it to QGround Control
+								if (I2C_Status != I2C_OK)
+								{
+									global_data.param[i] = previous_value;
+									communication_send_specific_parameter(i);
+								}
 							}
-							global_data.param[i] = set.param_value;
-							communication_send_specific_parameter(i); //QGround need to know that the parameter is received so it's sended back !
+							else
+							{
+								global_data.param[i] = set.param_value;
+								communication_send_specific_parameter(i); //QGround need to know that the parameter is received so it's sended back !
+							}
+							
 						}
 					}
 				}		
@@ -211,8 +264,83 @@ void handle_mavlink_message(mavlink_channel_t chan, mavlink_message_t * msg)
 		
 		case MAVLINK_MSG_ID_COMMAND_LONG:
 		{
-			asm("bkpt 255");
+//			asm("bkpt 255");
 		}
 		break;
 	}
+}
+
+/**
+ * @brief Write a camera register that has the "same" name as the variables defined in enum global_param_id_t
+ * @param name : name of the register to change
+ * @param value : value to put in the regiser
+ * @retval I2C_Status : status of the I2C transfer
+ */
+I2C_StatusTypeDef write_camera_register(uint16_t name, float value)
+{
+	uint8_t param_value = (uint8_t) value;
+	I2C_StatusTypeDef I2C_Status;
+	
+	switch (name)
+	{
+	case C_COM7:
+		{
+			I2C_Status = OV7675_Write_Reg(OV7675_COM7, &param_value);	
+		}	
+		break;
+	case C_COM8:
+		{
+			I2C_Status = OV7675_Write_Reg(OV7675_COM8, &param_value);
+		}
+		break;
+	case C_COM9:
+		{
+			I2C_Status = OV7675_Write_Reg(OV7675_COM9, &param_value);
+		}
+		break;
+	case C_GAIN:
+		{
+			I2C_Status = OV7675_Write_Reg(OV7675_GAIN, &param_value);
+		}
+		break;
+	}
+	
+	return I2C_Status;
+}
+
+/**
+ * @brief Read a camera register that has the "same" name as the variables defined in enum global_param_id_t
+ * @param name : name of the register to change
+ * @param value : value read in the regiser
+ * @retval I2C_Status : status of the I2C transfer
+ */
+I2C_StatusTypeDef read_camera_register(uint16_t name, uint8_t *value)
+{
+	I2C_StatusTypeDef I2C_Status;
+	
+	switch (name)
+	{
+	case C_COM7:
+		{
+			I2C_Status = OV7675_Read_Reg(OV7675_COM7, value);	
+		}	
+		break;
+	case C_COM8:
+		{
+			I2C_Status = OV7675_Read_Reg(OV7675_COM8, value);
+		}
+		break;
+	case C_COM9:
+		{
+			I2C_Status = OV7675_Read_Reg(OV7675_COM9, value);
+		}
+		break;
+	case C_GAIN:
+		{
+			I2C_Status = OV7675_Read_Reg(OV7675_GAIN, value);
+		}
+		break;
+	}
+	
+	return I2C_Status;
 }

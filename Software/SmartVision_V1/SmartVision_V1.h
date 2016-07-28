@@ -1,10 +1,16 @@
+/******************************************************************************
+ * @file     SmartVision.h
+ * @brief    Main file
+ * @version  V1
+ * @date     28. July 2016
+ * @Author	 W. PONSOT
+ ******************************************************************************/
+#include <OV7675_dcmi.h>
 
-
-
-// Personal function
-	// Hardware function
-void LED_Init();
-void LED_Toogle();
+	// Mavlink
+#include <mavlink.h>
+#include "mavlink_communication.h"
+#include "settings_parameters.h"
 
 	// Mavlink function
 void mavlink_init();
