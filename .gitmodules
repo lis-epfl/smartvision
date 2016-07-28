@@ -1,3 +1,9 @@
 [submodule "Software/Libs/mavlink_headers"]
 	path = Software/Libs/mavlink_headers
 	url = https://github.com/lis-epfl/mavlink_headers.git
+
+[submodule "Software/Example_PX4Flow/Flow"]
+	
+    path = Software/Example_PX4Flow/Flow
+	
+    url = https://github.com/lis-epfl/Flow.git
