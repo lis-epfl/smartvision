@@ -323,6 +323,9 @@
 #ifndef __ULLACCUM_MAX__
 #define __ULLACCUM_MAX__ 0XFFFFFFFFFFFFFFFFP-32ULLK
 #endif
+#ifndef STM32F407xx
+#define STM32F407xx 1
+#endif
 #ifndef __HQ_IBIT__
 #define __HQ_IBIT__ 0
 #endif
@@ -410,6 +413,9 @@
 #endif
 #ifndef __FRACT_IBIT__
 #define __FRACT_IBIT__ 0
+#endif
+#ifndef USE_USB_FS
+#define USE_USB_FS 1
 #endif
 #ifndef __PTRDIFF_MAX__
 #define __PTRDIFF_MAX__ 0x7fffffff
@@ -594,6 +600,9 @@
 #ifndef __UDQ_FBIT__
 #define __UDQ_FBIT__ 64
 #endif
+#ifndef DEBUG
+#define DEBUG 1
+#endif
 #ifndef __INT8_TYPE__
 #define __INT8_TYPE__ signed char
 #endif
@@ -635,6 +644,9 @@
 #endif
 #ifndef __SIZEOF_PTRDIFF_T__
 #define __SIZEOF_PTRDIFF_T__ 4
+#endif
+#ifndef stm32_flash_layout
+#define stm32_flash_layout 1
 #endif
 #ifndef __LACCUM_EPSILON__
 #define __LACCUM_EPSILON__ 0x1P-31LK
@@ -1071,22 +1083,17 @@
 #ifndef __ATOMIC_RELEASE
 #define __ATOMIC_RELEASE 3
 #endif
-#ifndef DEBUG
-#define DEBUG 1
-#endif
-#ifndef stm32_flash_layout
-#define stm32_flash_layout 
-#endif
-#ifndef STM32F407xx
-#define STM32F407xx 
-#endif
-#ifndef USE_USB_FS
-#define USE_USB_FS 
-#endif
 #endif
 
 // --- Include directories begin --- //
 //.
+//$(LOCALAPPDATA)\VisualGDB\EmbeddedBSPs\arm-eabi\com.sysprogs.arm.stm32/STM32F4xxxx/STM32F4xx_HAL_Driver/Inc
+//$(LOCALAPPDATA)\VisualGDB\EmbeddedBSPs\arm-eabi\com.sysprogs.arm.stm32/STM32F4xxxx/STM32F4xx_HAL_Driver/Inc/Legacy
+//$(LOCALAPPDATA)\VisualGDB\EmbeddedBSPs\arm-eabi\com.sysprogs.arm.stm32/STM32F4xxxx/CMSIS_HAL/Device/ST/STM32F4xx/Include
+//$(LOCALAPPDATA)\VisualGDB\EmbeddedBSPs\arm-eabi\com.sysprogs.arm.stm32/STM32F4xxxx/CMSIS_HAL/Include
+//$(LOCALAPPDATA)\VisualGDB\EmbeddedBSPs\arm-eabi\com.sysprogs.arm.stm32/STM32F4xxxx/CMSIS_HAL/RTOS/Template
+//$(LOCALAPPDATA)\VisualGDB\EmbeddedBSPs\arm-eabi\com.sysprogs.arm.stm32/STM32_USB_Device_Library/Core/Inc
+//$(LOCALAPPDATA)\VisualGDB\EmbeddedBSPs\arm-eabi\com.sysprogs.arm.stm32/STM32_USB_Device_Library/Class/CDC/Inc
 //c:\sysgcc\arm-eabi\bin\../lib/gcc/arm-eabi/5.3.0/../../../../arm-eabi/include/c++/5.3.0
 //c:\sysgcc\arm-eabi\bin\../lib/gcc/arm-eabi/5.3.0/../../../../arm-eabi/include/c++/5.3.0/arm-eabi/thumb/cortex_m4
 //c:\sysgcc\arm-eabi\bin\../lib/gcc/arm-eabi/5.3.0/../../../../arm-eabi/include/c++/5.3.0/backward
@@ -1094,13 +1101,6 @@
 //c:\sysgcc\arm-eabi\bin\../lib/gcc/arm-eabi/5.3.0/include-fixed
 //c:\sysgcc\arm-eabi\bin\../lib/gcc/arm-eabi/5.3.0/../../../../arm-eabi/sys-include
 //c:\sysgcc\arm-eabi\bin\../lib/gcc/arm-eabi/5.3.0/../../../../arm-eabi/include
-//C:\Users\WILLIA~1\AppData\Local\VisualGDB\EmbeddedBSPs\arm-eabi\com.sysprogs.arm.stm32/STM32F4xxxx/STM32F4xx_HAL_Driver/Inc
-//C:\Users\WILLIA~1\AppData\Local\VisualGDB\EmbeddedBSPs\arm-eabi\com.sysprogs.arm.stm32/STM32F4xxxx/STM32F4xx_HAL_Driver/Inc/Legacy
-//C:\Users\WILLIA~1\AppData\Local\VisualGDB\EmbeddedBSPs\arm-eabi\com.sysprogs.arm.stm32/STM32F4xxxx/CMSIS_HAL/Device/ST/STM32F4xx/Include
-//C:\Users\WILLIA~1\AppData\Local\VisualGDB\EmbeddedBSPs\arm-eabi\com.sysprogs.arm.stm32/STM32F4xxxx/CMSIS_HAL/Include
-//C:\Users\WILLIA~1\AppData\Local\VisualGDB\EmbeddedBSPs\arm-eabi\com.sysprogs.arm.stm32/STM32F4xxxx/CMSIS_HAL/RTOS/Template
-//C:\Users\WILLIA~1\AppData\Local\VisualGDB\EmbeddedBSPs\arm-eabi\com.sysprogs.arm.stm32/STM32_USB_Device_Library/Core/Inc
-//C:\Users\WILLIA~1\AppData\Local\VisualGDB\EmbeddedBSPs\arm-eabi\com.sysprogs.arm.stm32/STM32_USB_Device_Library/Class/CDC/Inc
 // --- Include directories end --- //
 
 
