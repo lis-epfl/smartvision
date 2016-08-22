@@ -69,6 +69,50 @@ void OV7675_Init()
 	I2C_Status_Printf("Reset RGB", I2C_Status);
 	
 		
+		/*
+	//EXPOSURE
+	//Turn off auto exposure/gain/white balance
+	I2C_Status = OV7675_Write_Reg_Bit(OV7675_COM8, 0, 0);
+	I2C_Status_Printf("auto exposure settings", I2C_Status);
+	
+	I2C_Status = OV7675_Write_Reg_Bit(OV7675_COM8, 1, 0);
+	I2C_Status_Printf("auto white settings", I2C_Status);
+	
+	I2C_Status = OV7675_Write_Reg_Bit(OV7675_COM8, 2, 0);
+	I2C_Status_Printf("auto gain settings", I2C_Status);
+	
+	//Banding filter settings
+	I2C_Status = OV7675_Write_Reg_Bit(OV7675_COM8, 5, 1);
+	I2C_Status_Printf("gain settings", I2C_Status);
+	
+	I2C_Status = OV7675_Write_Reg_Bit(OV7675_COM11, 4, 0);
+	I2C_Status_Printf("gain settings", I2C_Status);
+	
+	I2C_Status = OV7675_Write_Reg_Bit(OV7675_COM11, 3, 1);
+	I2C_Status_Printf("gain settings", I2C_Status);
+	
+	I2C_Status = OV7675_Write_Reg_Bit(OV7675_COM11, 1, 1);
+	I2C_Status_Printf("gain settings", I2C_Status);
+	
+	//Auto exposure settings
+	//OV7675_Write_Reg_Bit(OV7675_COM8, 7, 0);
+	//OV7675_Write_Reg_Bit(OV7675_COM8, 6, 1);
+	//OV7675_Write_Reg_Bit(OV7675_COM8, 3, 0);
+	
+	//Manual exposure time
+	//AEC[15:0] to 0
+	uint8_t val = 0;
+	I2C_Status = OV7675_Write_Reg(OV7675_AECH, &val);
+	I2C_Status = OV7675_Write_Reg_Bit(OV7675_AECHH, 3, 1);
+	I2C_Status_Printf("exposure settings", I2C_Status);
+	
+	//gain
+	val = 0x40;
+	I2C_Status = OV7675_Write_Reg(OV7675_BLUE, &val);
+	I2C_Status = OV7675_Write_Reg(OV7675_RED, &val);
+	I2C_Status = OV7675_Write_Reg(OV7675_GREEN, &val);
+	*/
+	
 	// DCMI
 	OV7675_Dcmi_Config();
 	
