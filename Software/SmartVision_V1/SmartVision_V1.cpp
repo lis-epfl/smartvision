@@ -145,7 +145,7 @@ int main(void)
 
 	scanf("%d", &start); // Wait that the port COM is opened by the user
 	
-	OV7675_Init(QQVGA);
+	OV7675_Init();
 	
 	// Color bar
 //	I2C_Status = OV7675_Write_Reg_Bit(OV7675_COM7, 1, 1);

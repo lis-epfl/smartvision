@@ -23,7 +23,7 @@
 #define DCMI_TIMEOUT_MAX  10 // 10000 for 168MHz
 
 // Image size
-#define QQVGA_YUV_size 38400 // QQVGA : 160(column)*120(line) pixels = 19200 , *2 if YUV422 is selected
+#define QVGA_RGB_size 115200 // QVGA : 320(column)*180(line) pixels = 57600 , *2 if RGB565 is selected
 
 // Return status
 typedef enum 
@@ -52,15 +52,17 @@ typedef enum
 } OV7675_ModeTypeDef;
 
 
-void OV7675_Init(OV7675_ModeTypeDef mode); 
+void OV7675_Init(); 
 
 // I2C
 void OV7675_I2C_config();
 I2C_StatusTypeDef OV7675_Write_Reg(uint16_t MemAddress, uint8_t *pData);
 I2C_StatusTypeDef OV7675_Write_Reg_Bit(uint16_t MemAddress, uint8_t bit, uint8_t value);
+I2C_StatusTypeDef OV7675_Write_Reg_BitRange(uint16_t MemAddress, uint8_t bitStart, uint8_t bitEnd, uint8_t value);
 I2C_StatusTypeDef OV7675_Read_Reg(uint16_t MemAddress, uint8_t *pDataRead);
 I2C_StatusTypeDef OV7675_ReadID(OV7675_IDTypeDef* OV7675ID);
 I2C_StatusTypeDef OV7675_Mode_Config(uint8_t *mode, uint8_t size);
+I2C_StatusTypeDef OV7675_SetWindow(uint16_t startCol, uint16_t startRow, uint16_t width, uint16_t height);
 
 // DCMI
 void OV7675_Dcmi_Config(void);

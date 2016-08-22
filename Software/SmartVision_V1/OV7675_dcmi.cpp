@@ -1,4 +1,5 @@
 #include "OV7675_dcmi.h"
+#include <cmath>
 
 //// Private variables
 
@@ -9,8 +10,8 @@ DMA_HandleTypeDef DMA_Handle;
 I2C_StatusTypeDef I2C_Status;
 HAL_StatusTypeDef HAL_Status;
 
-uint8_t data[QQVGA_YUV_size];
-uint32_t data_size = QQVGA_YUV_size;
+uint8_t data[QVGA_RGB_size];
+uint32_t data_size = QVGA_RGB_size;
 
 OV7675_IDTypeDef  OV7675_Camera_ID; 
 
@@ -19,36 +20,13 @@ uint32_t line = 0;
 uint32_t line_Frame = 0;
 uint32_t vsync = 0;
 
-// Configuration mode 
-uint8_t OV7675_QQVGA[] =
-{	
-	 //MSB for image size, LSBs are equal to 0 !
-	OV7675_HSTART, 
-	0x2F, 
-	OV7675_HSTOP,
-	0x43,
-	OV7675_VSTART, 
-	0x5D,
-	OV7675_VSTOP,
-	OV7675_VSTOP_DV, // VSTOP can't be modified !
-};
-
-uint8_t OV7675_QVGA[] =
-{	
-};
-
-uint8_t OV7675_VGA[] =
-{	
-};
-
-
 /**
   * @brief  Initializes the hardware resources (I2C and GPIO) used to configure 
   *         the OV9655 camera.
   * @param  None
   * @retval None
   */
-void OV7675_Init(OV7675_ModeTypeDef mode) 
+void OV7675_Init() 
 {
 	uint8_t pData = 0x7b;
 	
@@ -69,24 +47,26 @@ void OV7675_Init(OV7675_ModeTypeDef mode)
 	I2C_Status = OV7675_Write_Reg_Bit(OV7675_COM7, 7, 1);
 	I2C_Status_Printf("Reset register", I2C_Status);
 	
-	// Change outpout format mode.
-	switch (mode)
-	{
-	case QQVGA :
-		I2C_Status = OV7675_Mode_Config(OV7675_QQVGA, sizeof(OV7675_QQVGA));
-		I2C_Status_Printf("mode QQVGA", I2C_Status);
-		break;
-		
-	case QVGA:
-		I2C_Status = OV7675_Mode_Config(OV7675_QVGA, sizeof(OV7675_QVGA));
-		I2C_Status_Printf("mode QVGA", I2C_Status);
-		break;
-		
-	case VGA:
-		I2C_Status = OV7675_Mode_Config(OV7675_VGA, sizeof(OV7675_VGA));
-		I2C_Status_Printf("mode VGA", I2C_Status);
-		break;
-	}
+	// Color bar
+	// I2C_Status = OV7675_Write_Reg_Bit(OV7675_COM7, 1, 1);
+	// I2C_Status_Printf("Color bar", I2C_Status);
+	
+	//QVGA mode
+	I2C_Status = OV7675_Write_Reg_Bit(OV7675_COM7, 4, 1);
+	I2C_Status_Printf("Set QVGA", I2C_Status);
+	// Change to QQVGA mode.
+	// I2C_Status = OV7675_SetWindow(0, 0, 320, 180);
+	// I2C_Status_Printf("window settings", I2C_Status);
+	
+	//RGB mode
+	I2C_Status = OV7675_Write_Reg_Bit(OV7675_COM7, 2, 1);
+	I2C_Status_Printf("Reset RGB", I2C_Status);
+	I2C_Status = OV7675_Write_Reg_Bit(OV7675_COM7, 0, 0);
+	I2C_Status_Printf("Reset RGB", I2C_Status);
+	I2C_Status = OV7675_Write_Reg_Bit(OV7675_COM15, 4, 1);
+	I2C_Status_Printf("Reset RGB", I2C_Status);
+	I2C_Status = OV7675_Write_Reg_Bit(OV7675_COM15, 5, 0);
+	I2C_Status_Printf("Reset RGB", I2C_Status);
 	
 		
 	// DCMI
@@ -98,9 +78,14 @@ void OV7675_Init(OV7675_ModeTypeDef mode)
 void OV7675_Send_Data(uint8_t data[], uint32_t data_size)
 {
 	printf("START PBUFFER TRANSFER\r\n");
-	for (int i = 0; i < data_size; i++)
+	for (int i = 0; i < data_size; i += 2)
 	{
-		printf("%d\r\n", data[i]);
+		//red
+		printf("%d\r\n", (data[i + 1] &  0xF8) >> 3);
+		//green
+		printf("%d\r\n", ((int)(data[i + 1] & 0x7) << 3) + (int)((data[i] & 0xE0) >> 5));
+		//blue
+		printf("%d\r\n", (data[i] & 0x1F));
 	}
 	printf("END PBUFFER TRANSFER\r\n");
 }
@@ -193,6 +178,90 @@ I2C_StatusTypeDef OV7675_Mode_Config(uint8_t *mode, uint8_t size)
 			//return I2C_Status;
 		}
 	}
+	return I2C_OK;
+}
+
+
+/**
+  * @brief  Sets windowing registers according to specified rect
+  * @param  Rectangle position and size
+  * @retval I2C_StatusTypeDef
+  */
+
+I2C_StatusTypeDef OV7675_SetWindow(uint16_t startCol, uint16_t startRow, uint16_t width, uint16_t height)
+{
+	uint8_t hstart_msb = startCol >> 3;
+	uint8_t hstart_lsb = startCol & 0x7;	
+	
+	uint8_t vstart_msb = startRow >> 2;
+	uint8_t vstart_lsb = startRow & 0x3;
+	
+	uint16_t endCol = (startCol + width);
+	uint8_t hstop_msb = endCol >> 3;
+	uint8_t hstop_lsb = endCol & 0x7; 
+
+	uint16_t endRow = (startRow + height);
+	uint8_t vstop_msb = endRow >> 2;
+	uint8_t vstop_lsb = endRow & 0x3;
+	
+	//Write MSB regs
+	I2C_StatusTypeDef status = OV7675_Write_Reg(OV7675_HSTART, &hstart_msb);
+	if (status != I2C_OK)
+	{
+		printf("Register failed : %#2x\r\n", OV7675_HSTART);
+		printf("Value send (8 MSB): %#2x\r\n", hstart_msb);
+	}
+	
+	status = OV7675_Write_Reg(OV7675_VSTART, &vstart_msb);
+	if (status != I2C_OK)
+	{
+		printf("Register failed : %#2x\r\n", OV7675_VSTART);
+		printf("Value send (8 MSB): %#2x\r\n", vstart_msb);
+	}
+	
+	status = OV7675_Write_Reg(OV7675_HSTOP, &hstop_msb);
+	if (status != I2C_OK)
+	{
+		printf("Register failed : %#2x\r\n", OV7675_HSTOP);
+		printf("Value send (8 MSB): %#2x\r\n", hstop_msb);
+	}
+	
+	status = OV7675_Write_Reg_Bit(OV7675_VSTOP, 7, 1);
+	if (status != I2C_OK)
+	{
+		printf("Register failed : %#2x\r\n", OV7675_VSTOP);
+		printf("Value send (8 MSB): %#2x\r\n", vstop_msb);
+	}
+	
+	//Write LSB regs
+	status = OV7675_Write_Reg_BitRange(OV7675_HREF, 0, 2, hstart_lsb);
+	if (status != I2C_OK)
+	{
+		printf("Register failed : %#2x\r\n", OV7675_HREF);
+		printf("Value send (3 LSB of HSTART): %#2x\r\n", hstart_lsb);
+	}
+	
+	status = OV7675_Write_Reg_BitRange(OV7675_HREF, 3, 5, hstop_lsb);
+	if (status != I2C_OK)
+	{
+		printf("Register failed : %#2x\r\n", OV7675_HREF);
+		printf("Value send (3 LSB of HSTOP): %#2x\r\n", hstop_lsb);
+	}
+	
+	status = OV7675_Write_Reg_BitRange(OV7675_VREF, 0, 1, vstart_lsb);
+	if (status != I2C_OK)
+	{
+		printf("Register failed : %#2x\r\n", OV7675_VREF);
+		printf("Value send (2 LSB of VSTART): %#2x\r\n", vstart_lsb);
+	}
+	
+	status = OV7675_Write_Reg_BitRange(OV7675_VREF, 2, 3, vstop_lsb);
+	if (status != I2C_OK)
+	{
+		printf("Register failed : %#2x\r\n", OV7675_VREF);
+		printf("Value send (2 LSB of VSTOP): %#2x\r\n", vstop_lsb);
+	}
+
 	return I2C_OK;
 }
 
@@ -304,6 +373,69 @@ I2C_StatusTypeDef OV7675_Write_Reg_Bit(uint16_t MemAddress, uint8_t bit, uint8_t
 		return I2C_WRONG_VALUE;
 	}
 }
+
+/**
+  * @brief  Write a value into specified bit range
+  * @param MemAdress : internal memory address where the value is written 
+  * @param bitStart : most significant bit to start writing to
+  * @param bitEnd : least significant bit to end writing at (inclusive)
+  * @param value : the bit range will have this value at the end of the function
+  * @retval I2C_StatusTypeDef
+  */
+I2C_StatusTypeDef OV7675_Write_Reg_BitRange(uint16_t MemAddress, uint8_t bitStart, uint8_t bitEnd, uint8_t value)
+{
+	uint8_t data = 0;
+	uint8_t dataRead_before;
+	uint8_t dataRead_after;
+	int rangeLength = (int)bitEnd - (int)bitStart + 1;
+	
+	HAL_Status = HAL_I2C_Mem_Read(&I2C_Handle, OV7675_DEVICE_READ_ADDRESS, MemAddress, I2C_MEMADD_SIZE_8BIT, &dataRead_before, 1, DCMI_TIMEOUT_MAX);
+	if (HAL_Status != HAL_OK)
+		return I2C_READ_FAILED;
+		
+	if (bitStart > bitEnd || bitStart < 0 || bitEnd > 7)
+		return I2C_WRONG_VALUE;
+	
+	if (value >= 0 && value < pow(2, rangeLength))
+	{
+		data = dataRead_before;
+		//merge existing register data and bits to be written over
+		uint8_t currentValue = value;
+		for (uint8_t i = bitStart; i <= bitEnd; i++)
+		{
+			//Clear the bit of interest
+			data &= ~(1 << i);
+			//Assign it to the new bit value
+			data |= ((currentValue % 2) << i);
+			//Move to the next bit value
+			currentValue /= 2;
+		}
+	}
+	else
+	{
+		return I2C_WRONG_VALUE;
+	}
+	printf("data before : %#2x\r\n", dataRead_before);
+	printf("data sent : %#2x\r\n", data);
+	
+	HAL_Status = HAL_I2C_Mem_Write(&I2C_Handle, OV7675_DEVICE_WRITE_ADDRESS, MemAddress, I2C_MEMADD_SIZE_8BIT, &data, 1, DCMI_TIMEOUT_MAX);
+	if (HAL_Status != HAL_OK)
+		return I2C_WRITE_FAILED;
+	
+	HAL_Status = HAL_I2C_Mem_Read(&I2C_Handle, OV7675_DEVICE_READ_ADDRESS, MemAddress, I2C_MEMADD_SIZE_8BIT, &dataRead_after, 1, DCMI_TIMEOUT_MAX);
+	if (HAL_Status != HAL_OK)
+		return I2C_READ_FAILED;
+	
+	if (data == dataRead_after)
+		return I2C_OK;
+	else
+	{
+		printf("Wrong register data : %#2x\r\n", dataRead_after);
+		return I2C_WRONG_VALUE;
+	}
+}
+
+
 /**
   * @brief  Read a value into the camera OV7675 at a specific adress 
   * @param MemAdress : interna memory address where the value is read 
